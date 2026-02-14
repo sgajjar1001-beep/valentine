@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#ff6f91;
+  font-family:Segoe UI, sans-serif;
+  overflow:hidden;
+  color:white;
+  text-align:center;
+}
+
+/* Background Heart */
+.bg-heart{
+  position:fixed;
+  font-size:180px;
+  opacity:0.08;
+  z-index:0;
+  animation:heartbeat 2s infinite;
+}
+
+@keyframes heartbeat{
+  0%{transform:scale(1);}
+  25%{transform:scale(1.1);}
+  50%{transform:scale(1);}
+  75%{transform:scale(1.15);}
+  100%{transform:scale(1);}
+}
+
+.medium{animation:heartbeat 1.2s infinite;}
+.fast{animation:heartbeat 0.7s infinite;}
+
+.card{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  padding:30px;
+  border-radius:20px;
+  width:90%;
+  max-width:480px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.2);
+  position:relative;
+  z-index:2;
+}
+
+.text-box{
+  font-size:18px;
+  line-height:1.7;
+  margin-top:10px;
+}
+
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:25px;
+  margin-top:15px;
+  cursor:pointer;
+}
+
+#yesBtn{background:white;color:#ff4d6d;font-weight:bold;}
+#noBtn{background:#ff4d6d;color:white;}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-heart" id="bgHeart">💖</div>
+
+<div class="card">
+<div id="content"></div>
+</div>
+
+<audio id="bgMusic" loop>
+<source src="mysong.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const content=document.getElementById("content");
+const music=document.getElementById("bgMusic");
+const bgHeart=document.getElementById("bgHeart");
+
+/* Heart Speed + Vibration */
+function setHeart(speed){
+
+ bgHeart.classList.remove("medium","fast");
+
+ if(speed==="medium"){
+   bgHeart.classList.add("medium");
+   if(navigator.vibrate) navigator.vibrate([100,200,100]);
+ }
+
+ if(speed==="fast"){
+   bgHeart.classList.add("fast");
+   if(navigator.vibrate) navigator.vibrate([200,100,200,100]);
+ }
+}
+
+/* Typewriter */
+function typeWriter(text, callback){
+ content.innerHTML="";
+ let i=0;
+ function typing(){
+  if(i<text.length){
+   content.innerHTML+=text.charAt(i);
+   i++;
+   setTimeout(typing,25);
+  } else if(callback){callback();}
+ }
+ typing();
+}
+
+/* START */
+function showStart(){
+ content.innerHTML=`
+ <h2>Happy Valentine's Day 💖</h2>
+ <p>A little something for you...</p>
+ <button id="musicBtn" onclick="turnMusic()">Turn On Music 🎶</button>
+ `;
+}
+
+function turnMusic(){
+ music.play();
+
+ // Remove music button
+ document.getElementById("musicBtn").remove();
+
+ content.innerHTML+=`
+ <br>
+ <button onclick="openSurprise()">Open Surprise 🎀</button>
+ `;
+}
+
+function openSurprise(){
+ step1();
+}
+
+/* STORY – MEDIUM SIZE SHAYARI */
+
+function step1(){
+ setHeart("medium");
+ typeWriter(
+`Teri aankhon ki chamak mein ek alag si roshni hai,
+jaise subah ki pehli kiran jo andheron ko mita deti hai.
+
+Aur tera chehra...
+jaise kisi khubsurat khwab ki tasveer,
+jise dekh kar dil khud-ba-khud muskurane lage. ✨`,
+ ()=>{content.innerHTML+=`<br><button onclick="step2()">Next ➜</button>`;}
+ );
+}
+
+function step2(){
+ setHeart("medium");
+ typeWriter(
+`Jab maine tumhe pehli baar dekha,
+waqt sach mein kuch pal ke liye ruk sa gaya tha.
+
+Bheed mein bhi sirf tum hi nazar aa rahi thi,
+jaise duniya ne ek pal ke liye sirf tumhe highlight kar diya ho. 💫`,
+ ()=>{content.innerHTML+=`<br><button onclick="step3()">Next ➜</button>`;}
+ );
+}
+
+function step3(){
+ setHeart("fast");
+ typeWriter(
+`Tumhari awaaz mein ek ajeeb sa sukoon hai,
+jaise halki si baarish ki boondein jo dil ko shaant kar deti hain.
+
+Aur tumhari muskurahat...
+woh sirf chehre par nahi,
+seedha dil par apna asar chhod jaati hai. 😊💖`,
+ ()=>{content.innerHTML+=`<br><button onclick="step4()">Next ➜</button>`;}
+ );
+}
+
+function step4(){
+ setHeart("fast");
+ typeWriter(
+`Toh aaj ek chhoti si baat dil se kehni hai...
+
+Kya tum meri special person banogi?
+Ya meri life ki woh priority,
+jise dekh kar har din automatically smile aa jaye? 💌💖`,
+ ()=>{
+  content.innerHTML+=`
+  <br>
+  <button id="yesBtn" onclick="finalYes()">Yes ❤️</button>
+  <button id="noBtn" onclick="firstNo()">No 🙂</button>`;
+ }
+ );
+}
+
+/* YES */
+function finalYes(){
+ bgHeart.innerHTML="💖";
+ setHeart("fast");
+
+ content.innerHTML=`
+ <h1>🌹 Thank You 💖</h1>
+ <div class="text-box">
+ Aaj tumne sirf haan nahi kahi...
+ tumne mere dil ko ek khoobsurat yaad de di.
+
+ Main wada karta hoon,
+ tumhari muskurahat kabhi kam na hone doon,
+ aur har din tumhe khush rakhne ki puri koshish karunga.
+
+ Tumhari hasi meri sabse badi jeet hai... 💕
+ </div>
+ <button onclick="sendReply()">Send My Reply 💌</button>
+ `;
+}
+
+/* NO FLOW */
+function firstNo(){
+ bgHeart.innerHTML="💔";
+ typeWriter("Are you sure? 💔",
+ ()=>{content.innerHTML+=`<br><button onclick="finalYes()">Yes</button><button onclick="secondNo()">No</button>`;}
+ );
+}
+
+function secondNo(){
+ bgHeart.innerHTML="💔";
+ typeWriter("Soch lo... 💔",
+ ()=>{content.innerHTML+=`<br><button onclick="finalYes()">Yes</button><button onclick="finalNo()">No</button>`;}
+ );
+}
+
+function finalNo(){
+ bgHeart.innerHTML="❤️‍🩹";
+ typeWriter(
+`It’s completely okay 🤍
+Main tumhari respect karta hoon.
+Hum hamesha ache dost rahenge.
+Thank you for being honest.`,
+ ()=>{content.innerHTML+=`<br><button onclick="sendNo()">Send Reply</button>`;}
+ );
+}
+
+/* WhatsApp */
+function sendReply(){
+ window.location.href="https://wa.me/918160774977?text=I%20said%20YES%20❤️";
+}
+
+function sendNo(){
+ window.location.href="https://wa.me/918160774977?text=I%20said%20NO%20but%20let’s%20stay%20friends%20😊";
+}
+
+showStart();
+
+</script>
+
+</body>
+</html>
