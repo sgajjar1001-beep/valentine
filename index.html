@@ -78,29 +78,24 @@ button{
 <div id="content"></div>
 </div>
 
-<audio id="bgMusic" loop>
-<source src="mysong.mp3" type="audio/mpeg">
-</audio>
-
 <script>
 
 const content=document.getElementById("content");
-const music=document.getElementById("bgMusic");
 const bgHeart=document.getElementById("bgHeart");
 
-/* Heart Speed + Vibration */
+/* Heart Speed + Mobile Vibration */
 function setHeart(speed){
 
  bgHeart.classList.remove("medium","fast");
 
  if(speed==="medium"){
    bgHeart.classList.add("medium");
-   if(navigator.vibrate) navigator.vibrate([100,200,100]);
+   if(navigator.vibrate) navigator.vibrate([80,150,80]);
  }
 
  if(speed==="fast"){
    bgHeart.classList.add("fast");
-   if(navigator.vibrate) navigator.vibrate([200,100,200,100]);
+   if(navigator.vibrate) navigator.vibrate([150,80,150,80]);
  }
 }
 
@@ -118,23 +113,11 @@ function typeWriter(text, callback){
  typing();
 }
 
-/* START */
+/* START SCREEN */
 function showStart(){
  content.innerHTML=`
  <h2>Happy Valentine's Day 💖</h2>
- <p>A little something for you...</p>
- <button id="musicBtn" onclick="turnMusic()">Turn On Music 🎶</button>
- `;
-}
-
-function turnMusic(){
- music.play();
-
- // Remove music button
- document.getElementById("musicBtn").remove();
-
- content.innerHTML+=`
- <br>
+ <p>A little surprise for you...</p>
  <button onclick="openSurprise()">Open Surprise 🎀</button>
  `;
 }
@@ -143,7 +126,7 @@ function openSurprise(){
  step1();
 }
 
-/* STORY – MEDIUM SIZE SHAYARI */
+/* STORY */
 
 function step1(){
  setHeart("medium");
@@ -152,7 +135,7 @@ function step1(){
 jaise subah ki pehli kiran jo andheron ko mita deti hai.
 
 Aur tera chehra...
-jaise kisi khubsurat khwab ki tasveer,
+jaise kisi khoobsurat khwab ki tasveer,
 jise dekh kar dil khud-ba-khud muskurane lage. ✨`,
  ()=>{content.innerHTML+=`<br><button onclick="step2()">Next ➜</button>`;}
  );
@@ -162,10 +145,10 @@ function step2(){
  setHeart("medium");
  typeWriter(
 `Jab maine tumhe pehli baar dekha,
-waqt sach mein kuch pal ke liye ruk sa gaya tha.
+waqt kuch pal ke liye ruk sa gaya tha.
 
 Bheed mein bhi sirf tum hi nazar aa rahi thi,
-jaise duniya ne ek pal ke liye sirf tumhe highlight kar diya ho. 💫`,
+jaise duniya ne ek lamhe ke liye sirf tumhe hi chun liya ho. 💫`,
  ()=>{content.innerHTML+=`<br><button onclick="step3()">Next ➜</button>`;}
  );
 }
@@ -186,7 +169,7 @@ seedha dil par apna asar chhod jaati hai. 😊💖`,
 function step4(){
  setHeart("fast");
  typeWriter(
-`Toh aaj ek chhoti si baat dil se kehni hai...
+`Toh aaj ek baat dil se kehni hai...
 
 Kya tum meri special person banogi?
 Ya meri life ki woh priority,
